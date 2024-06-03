@@ -1,3 +1,0 @@
-C:/Users/tokio/OneDrive/Escritorio/ChavezNet/cmake-build-debug/CMakeFiles/ChavezNet.dir
-C:/Users/tokio/OneDrive/Escritorio/ChavezNet/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/tokio/OneDrive/Escritorio/ChavezNet/cmake-build-debug/CMakeFiles/rebuild_cache.dir
