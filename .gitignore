@@ -1,0 +1,46 @@
+# Archivos de CLion
+.idea/
+cmake-build-debug/
+cmake-build-release/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# Archivos de respaldo
+*~
+*.swp
+*.swo
+
+# Archivos de logs y bases de datos
+*.log
+*.sql
+*.sqlite
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeLists.txt.user
+
+# Archivos de configuración de compilación
+compile_commands.json
+compile_flags.txt
+
+# Archivos de pruebas
+Testing/
+CTestTestfile.cmake
+CTestCostData.txt
+
+# Archivos de depuración
+.vscode/
