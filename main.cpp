@@ -155,7 +155,8 @@ void imprimirPelicula(const Pelicula& pelicula) {
 }
 
 int main() {
-    string nombreArchivo = "C:/Users/tokio/OneDrive/Escritorio/ChavezNet/data/RawData.csv";
+    string nombreArchivo = "C:/Users/tokio/OneDrive/Escritorio/ChavezNet/data/RawData_fixed.csv";
+
     auto peliculas = leerCSV(nombreArchivo);
 
     // Buscar la información de "A Hard Day's Night"
