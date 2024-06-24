@@ -119,7 +119,7 @@ int main() {
     auto peliculas = leerCSV(nombreArchivo);
 
     // Buscar la información de "A Hard Day's Night" - Ejemplo correcto: "Henry: Portrait of a Serial Killer"
-    string tituloBusqueda = "A Hard Day's Night";
+    string tituloBusqueda = "The Shop Around the Corner";
 
     // Usar la sintaxis y funciones de unordered_map para buscar y mostrar la película
     auto it = peliculas.find(tituloBusqueda);
