@@ -39,8 +39,19 @@ string leerSinopsis(ifstream& archivo) {
 
 // Función para leer una línea completa del archivo
 bool leerLinea(ifstream& archivo, string& linea) {
-    getline(archivo, linea);
-    return!linea.empty();
+    bool enComillas = false;
+    linea.clear();
+    char ch;
+    while (archivo.get(ch)) {
+        if (ch == '"' && (linea.empty() || enComillas)) {
+            enComillas = !enComillas;
+        }
+        linea += ch;
+        if (ch == '\n' && !enComillas) {
+            break;
+        }
+    }
+    return !linea.empty();
 }
 
 // Función para leer el CSV y cargarlo en un unordered_map
@@ -58,7 +69,7 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
     getline(archivo, linea);
 
     // Leer línea por línea el archivo CSV
-    while (leerLinea(archivo, linea)) {
+    while (getline(archivo, linea)) {
         istringstream stream(linea);
         Pelicula pelicula;
 
@@ -69,8 +80,7 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
         getline(stream, pelicula.titulo, ';');
 
         // Leer la sinopsis
-        pelicula.sinopsis = leerSinopsis(archivo);
-
+        getline(stream, pelicula.sinopsis, ';');
 
         // Leer los tags y separarlos
         string tags;
@@ -78,13 +88,10 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
         istringstream tagsStream(tags);
         string tag;
         while (getline(tagsStream, tag, ',')) {
-            pelicula.tags.push_back(tag);
+            if (tag!= "train" && tag!= "wikipedia") {
+                pelicula.tags.push_back(tag);
+            }
         }
-
-        // Ignorar las columnas restantes
-        string dummy;
-        getline(stream, dummy, ';'); // split
-        getline(stream, dummy, ';'); // synopsis_source
 
         // Almacenar la película en el unordered_map
         peliculas[pelicula.titulo] = pelicula;
@@ -111,8 +118,8 @@ int main() {
 
     auto peliculas = leerCSV(nombreArchivo);
 
-    // Buscar la información de "A Hard Day's Night"
-    string tituloBusqueda = "A Hard Day's Night";
+    // Buscar la información de "A Hard Day's Night" - Ejemplo correcto: "Henry: Portrait of a Serial Killer"
+    string tituloBusqueda = "In Time";
 
     // Usar la sintaxis y funciones de unordered_map para buscar y mostrar la película
     auto it = peliculas.find(tituloBusqueda);
