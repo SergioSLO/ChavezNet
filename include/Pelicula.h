@@ -1,28 +1,27 @@
-#pragma once // Para q se ejecute solo 1 vez
 #ifndef CHAVEZNET_PELICULA_H
 #define CHAVEZNET_PELICULA_H
 
+
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <fstream>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
 
-class Pelicula {
-private:
+struct Pelicula {
     string imdb_id;
     string titulo;
     string sinopsis;
     vector<string> tags;
-public:
-    Pelicula();
-    Pelicula(const string& imdb_id, const string& titulo, const string& sinopsis, const vector<string>& tags);
-    void imprimirPelicula();
-    string getId() const { return imdb_id; }
-    string getTitulo() const { return titulo; }
-    string getSinopsis() const { return sinopsis; }
-    vector<string> getTags() const { return tags; }
 };
+
+//string leerSinopsis(ifstream& archivo);
+//bool leerLinea(ifstream& archivo, string& linea);
+unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo);
+void imprimirPelicula(const Pelicula& pelicula);
 
 
 #endif //CHAVEZNET_PELICULA_H
