@@ -5,7 +5,6 @@ int main() {
     string nombreArchivo = "C:\\Users\\LENOVO\\OneDrive\\Escritorio\\UTEC-ciclo-3\\Programacion-III\\ChavezNet\\data\\RawData.csv";
     Database db(nombreArchivo);
 
-    // Buscar la información de tt0057603
     string IdBusqueda = "tt0057603";
 
     // Usar la sintaxis y funciones de unordered_map para buscar y mostrar la película
