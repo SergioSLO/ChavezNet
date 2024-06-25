@@ -18,6 +18,10 @@ public:
     Pelicula();
     Pelicula(const string& imdb_id, const string& titulo, const string& sinopsis, const vector<string>& tags);
     void imprimirPelicula();
+    string getId() const { return imdb_id; }
+    string getTitulo() const { return titulo; }
+    string getSinopsis() const { return sinopsis; }
+    vector<string> getTags() const { return tags; }
 };
 
 
