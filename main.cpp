@@ -14,7 +14,7 @@ int main() {
     // Buscar la información de "A Hard Day's Night" - Ejemplo correcto: "Henry: Portrait of a Serial Killer"
     string tituloBusqueda = "Call of Duty: Modern Warfare 3";
 
-    // Usar la sintaxis y funciones de unordered_map para buscar y mostrar la película..
+    // Usar la sintaxis y funciones de unordered_map para buscar y mostrar la película.
     auto it = peliculas.find(tituloBusqueda);
     if (it != peliculas.end()) {
         imprimirPelicula(it->second);

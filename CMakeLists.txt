@@ -8,4 +8,6 @@ add_executable(ChavezNet
         src/Database.cpp
         include/Database.h
         src/Pelicula.cpp
-        include/Pelicula.h)
+        include/Pelicula.h
+        include/Arbol.h
+        src/Arbol.cpp)
