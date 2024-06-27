@@ -50,7 +50,7 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
 void imprimirPelicula(const Pelicula& pelicula) {
 
     cout << "IMDB ID: " << pelicula.imdb_id << endl;
-    cout << "Título: " << pelicula.titulo << endl;
+    cout << "Titulo: " << pelicula.titulo << endl;
     cout << "Sinopsis: " << pelicula.sinopsis << endl;
     cout << "Tags: ";
     for (const auto& tag : pelicula.tags) {
