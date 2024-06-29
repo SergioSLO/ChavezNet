@@ -24,9 +24,15 @@ private:
     Nodo* raiz=nullptr;
     unordered_set<string> stopwords;
 
+    void insertarPalabraAux(Nodo* nodo, const string& palabra, Pelicula* pelicula, bool esTitulo);
+    unordered_set<Pelicula*> buscarPalabraAux(Nodo* nodo, const string& prefijos, bool esTitulo);
+
+
 public:
-    void insertarNodo(int dato);
-    Nodo* buscarNodo(int dato);
+    ABS(const unordered_set<string>& stopwords);
+
+    void insertarPalabra(const string& palabra, Pelicula* pelicula, bool esTitulo);
+    vector<Pelicula*> buscarPelicula(const string& query);
 };
 
 

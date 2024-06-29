@@ -2,12 +2,12 @@
 
 using namespace std;
 
-void BST::insertarNodo(int dato) {
+void ABS::insertarNodo(int dato) {
     raiz = insertarNodoAux(raiz, dato);
 }
 
 // Función auxiliar para insertar un nodo en el árbol
-Nodo* BST::insertarNodoAux(Nodo* nodo, int dato) {
+Nodo* ABS::insertarNodoAux(Nodo* nodo, int dato) {
     if (nodo == nullptr)
         return new Nodo(dato);
 

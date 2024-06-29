@@ -59,20 +59,20 @@ void imprimirPelicula(const Pelicula& pelicula) {
     cout << endl;
 }
 
-vector<string> Stopwords(const string& text, const unordered_set<string>& stopwords) {
-    istringstream stream(text);
+vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords) {
+    istringstream stream(texto);
     string palabra;
-    vector<string> PalabrasFiltradas;
+    vector<string> filteredWords;
     while (stream >> palabra) {
         // Convertir a minúsculas y eliminar puntuaciones
         transform(palabra.begin(), palabra.end(), palabra.begin(), ::tolower);
         palabra.erase(remove_if(palabra.begin(), palabra.end(), ::ispunct), palabra.end());
 
         if (!stopwords.count(palabra)) {
-            PalabrasFiltradas.push_back(palabra);
+            filteredWords.push_back(palabra);
         }
     }
-    return PalabrasFiltradas;
+    return filteredWords;
 }
 
 
