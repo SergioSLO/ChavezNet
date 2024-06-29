@@ -1,21 +1,25 @@
 #ifndef CHAVEZNET_ARBOL_H
 #define CHAVEZNET_ARBOL_H
 
+#include "Pelicula.h"
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
 
 struct Nodo {
-    int dato;
-    Nodo* left;
-    Nodo* right;
-
-    // Constructor
-    Nodo(int dato) {
-        this->dato = dato;
-        left = nullptr;
-        right = nullptr;
-    }
+    unordered_map<char,Nodo*> hijo;
+    unordered_set<Pelicula*> peliculaTitulo;
+    unordered_set<Pelicula*> peliculaSinopsis;
 };
 
-class BST {
+class ABS {
 private:
     Nodo* raiz=nullptr;
     Nodo* insertarNodoAux(Nodo* nodo, int dato);
