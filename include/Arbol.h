@@ -22,8 +22,7 @@ struct Nodo {
 class ABS {
 private:
     Nodo* raiz=nullptr;
-    Nodo* insertarNodoAux(Nodo* nodo, int dato);
-    Nodo* buscarNodoAux(Nodo* nodo, int dato);
+    unordered_set<string> stopwords;
 
 public:
     void insertarNodo(int dato);

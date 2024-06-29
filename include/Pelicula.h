@@ -24,6 +24,7 @@ struct Pelicula {
 //bool leerLinea(ifstream& archivo, string& linea);
 unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo);
 void imprimirPelicula(const Pelicula& pelicula);
+vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
 
 
 #endif //CHAVEZNET_PELICULA_H
