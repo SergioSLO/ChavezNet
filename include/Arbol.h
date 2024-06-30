@@ -33,6 +33,8 @@ public:
 
     void insertarPalabra(const string& palabra, Pelicula* pelicula, bool esTitulo);
     vector<Pelicula*> buscarPelicula(const string& query);
+
+    vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
 };
 
 
