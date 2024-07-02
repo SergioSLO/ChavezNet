@@ -19,7 +19,7 @@ struct Nodo {
     Nodo* derecho;
 
     // Constructor
-    Nodo(Pelicula data) : dato(dato), izquierdo(nullptr), derecho(nullptr) {}
+    Nodo(Pelicula dato) : dato(dato), izquierdo(nullptr), derecho(nullptr) {}
 };
 
 class ABS {
@@ -27,13 +27,13 @@ private:
     Nodo* raiz = nullptr;
     unordered_set<string> stopwords;
 
-    void insertarAux(Nodo* nodo, Pelicula data);
+    Nodo *insertarAux(Nodo* nodo, Pelicula dato);
     void buscarAux(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
     void buscar_en_sinopsis(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
 
 public:
 
-    void insertarAux(Pelicula data);
+    void insertar(Pelicula dato);
     vector<Pelicula> buscar(string termino);
 
 };

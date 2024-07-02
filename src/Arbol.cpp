@@ -3,21 +3,29 @@
 using namespace std;
 
 
-void ABS::insertar(Pelicula data) {
-    insertar(raiz, data);
-}
-void ABS::insertarNodo(int dato) {
-    raiz = insertarNodoAux(raiz, dato);
+void ABS::insertar(Pelicula dato) {
+    insertarAux(raiz, dato);
 }
 
-// Función auxiliar para insertar un nodo en el árbol
-Nodo* ABS::insertarNodoAux(Nodo* nodo, int dato) {
-    if (nodo == nullptr)
-        return new Nodo(dato);
-
-    if (dato < nodo->dato)
-        nodo->left = insertarNodoAux(nodo->left, dato);
-    else
-        nodo->right = insertarNodoAux(nodo->right, dato);
+Nodo *ABS::insertarAux(Nodo *nodo, Pelicula dato) {
+    if (nodo == nullptr) {
+        new Nodo(dato);
+    }
+    if (dato.titulo < nodo->dato.titulo) {
+        nodo->izquierdo = insertarAux(nodo->izquierdo, dato);
+    } else {
+        nodo->derecho = insertarAux(nodo->derecho, dato);
+    }
     return nodo;
+}
+
+vector<Pelicula> ABS::buscar(string termino) {
+    vector<Pelicula> resultados_busqueda_titulo;
+    buscarAux(raiz,termino,resultados_busqueda_titulo);
+
+    if(resultados_busqueda_titulo.size() < 10){
+        vector<Pelicula> resultados_busqueda_sinopsis;
+        buscar_en_sinopsis(raiz, termino, resultados_busqueda_sinopsis);
+
+    }
 }
