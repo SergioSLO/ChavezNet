@@ -14,27 +14,28 @@
 using namespace std;
 
 struct Nodo {
-    unordered_map<char,Nodo*> hijo;
-    unordered_set<Pelicula*> peliculaTitulo;
-    unordered_set<Pelicula*> peliculaSinopsis;
+    Pelicula dato;
+    Nodo* izquierdo;
+    Nodo* derecho;
+
+    // Constructor
+    Nodo(Pelicula data) : dato(dato), izquierdo(nullptr), derecho(nullptr) {}
 };
 
 class ABS {
 private:
-    Nodo* raiz=nullptr;
+    Nodo* raiz = nullptr;
     unordered_set<string> stopwords;
 
-    void insertarPalabraAux(Nodo* nodo, const string& palabra, Pelicula* pelicula, bool esTitulo);
-    unordered_set<Pelicula*> buscarPalabraAux(Nodo* nodo, const string& prefijos, bool esTitulo);
-
+    void insertarAux(Nodo* nodo, Pelicula data);
+    void buscarAux(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
+    void buscar_en_sinopsis(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
 
 public:
-    ABS(const unordered_set<string>& stopwords);
 
-    void insertarPalabra(const string& palabra, Pelicula* pelicula, bool esTitulo);
-    vector<Pelicula*> buscarPelicula(const string& query);
+    void insertarAux(Pelicula data);
+    vector<Pelicula> buscar(string termino);
 
-    vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
 };
 
 

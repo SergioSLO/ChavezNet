@@ -3,9 +3,9 @@
 using namespace std;
 
 
-ABS::ABS(const unordered_set<string> &stopwords): raiz(new Nodo()), stopwords(stopwords) {}
-
-
+void ABS::insertar(Pelicula data) {
+    insertar(raiz, data);
+}
 void ABS::insertarNodo(int dato) {
     raiz = insertarNodoAux(raiz, dato);
 }
