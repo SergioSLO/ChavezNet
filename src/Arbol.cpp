@@ -32,6 +32,19 @@ Nodo* ABS::buscarTituloAux(Nodo* nodo, Pelicula dato) {
         return buscarSinopsisAux(nodo->derecho, dato);
 }
 
+Nodo* ABS::buscarSinopsis(Pelicula dato) {
+    return buscarSinopsisAux(raiz, dato);
+}
+Nodo* ABS::buscarSinopsisAux(Nodo *nodo, Pelicula dato) {
+    if (nodo == nullptr || nodo->dato.sinopsis == dato.titulo){
+        return nodo;
+    }
+    if (dato.sinopsis < nodo->dato.titulo)
+        return buscarTituloAux(nodo->izquierdo, dato);
+    else
+        return buscarSinopsisAux(nodo->derecho, dato);
+}
+
 
 vector<Pelicula> ABS::resultados(string termino) {
     vector<Pelicula> resultados_busqueda_titulo;
