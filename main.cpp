@@ -38,5 +38,4 @@ imprimirPelicula(it->second);
 } else {
 cout << "Pelicula no encontrada: " << tituloBusqueda << endl;
 }
-
 */
