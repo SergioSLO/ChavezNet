@@ -3,10 +3,10 @@
 using namespace std;
 
 //Comit para milton
-
+//comit para ANGEL
 int main() {
 
-    string nombreArchivo = "C:/Users/tokio/OneDrive/Escritorio/ChavezNet/data/RawData_fixed.csv";
+    string nombreArchivo = "C:/Users/Hamilton/OneDrive/Escritorio/ChavezNet/data/RawData_fixed.csv";
 
     auto peliculas = leerCSV(nombreArchivo);
 
