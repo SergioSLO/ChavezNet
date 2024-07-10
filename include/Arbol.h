@@ -27,10 +27,10 @@ private:
     Nodo* raiz = nullptr;
     unordered_set<string> stopwords;
 
-    Nodo *insertarAux(Nodo* nodo, Pelicula dato);
+    Nodo* insertarAux(Nodo* nodo, Pelicula dato);
     Nodo* buscarTituloAux(Nodo* nodo, Pelicula dato);
     Nodo* buscarSinopsisAux(Nodo* nodo, Pelicula dato);
-    void buscarAux(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
+    void buscar_en_titulo(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
     void buscar_en_sinopsis(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
 
 public:
@@ -38,7 +38,7 @@ public:
     void insertar(Pelicula dato);
     Nodo* buscarTitulo(Pelicula dato);
     Nodo* buscarSinopsis(Pelicula dato);
-    vector<Pelicula> resultados(string termino);
+    vector<Pelicula> buscar(string termino);
 
 };
 
