@@ -40,9 +40,6 @@ private:
 
     Nodo* insertarAux(Nodo* nodo, Pelicula dato);
     Nodo* buscarTituloAux(Nodo* nodo, Pelicula dato);
-    Nodo* buscarSinopsisAux(Nodo* nodo, Pelicula dato);
-    void buscar_en_titulo(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
-    void buscar_en_sinopsis(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
 
     void buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
 
@@ -50,10 +47,6 @@ private:
 public:
 
     void insertar(Pelicula dato);
-    Nodo* buscarTitulo(Pelicula dato);
-    Nodo* buscarSinopsis(Pelicula dato);
-    vector<Pelicula> buscar(string termino);
-
     priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
 };
 

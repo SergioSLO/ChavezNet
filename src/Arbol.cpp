@@ -32,19 +32,6 @@ Nodo* ABS::buscarTituloAux(Nodo* nodo, Pelicula dato) {
         return buscarTituloAux(nodo->derecho, dato);
 }
 
-Nodo* ABS::buscarSinopsis(Pelicula dato) {
-    return buscarSinopsisAux(raiz, dato);
-}
-Nodo* ABS::buscarSinopsisAux(Nodo *nodo, Pelicula dato) {
-    if (nodo == nullptr || nodo->dato.sinopsis == dato.sinopsis){
-        return nodo;
-    }
-    if (dato.sinopsis < nodo->dato.sinopsis)
-        return buscarTituloAux(nodo->izquierdo, dato);
-    else
-        return buscarSinopsisAux(nodo->derecho, dato);
-}
-
 priority_queue<PeliculaConCoincidencias> ABS::buscarenSinopsis(const string& termino) {
     priority_queue<PeliculaConCoincidencias> pq;
     if (raiz) {
