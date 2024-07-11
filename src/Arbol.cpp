@@ -49,7 +49,7 @@ void ABS::buscarenTituloAux(Nodo* nodo, const string& termino, priority_queue<Pe
         if (nodo->dato.titulo.find(terminoTransformado) != string::npos) {
             PeliculaConCoincidencias item = {nodo->dato, 1}; // Solo contamos la primera aparición
             pq.push(item);
-            if (pq.size() > 3) pq.pop(); // Mantener el tamaño máximo de 3, si no encuentra exactamente la palabra buscada
+            if (pq.size() > 3) pq.pop(); // Mantener el tamaño máximo de 3, si no encuentra exactamente el título
         }
     }
 
@@ -84,7 +84,7 @@ void ABS::buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<
         if (pos != string::npos) {
             PeliculaConCoincidencias item = {nodo->dato, 1};
             pq.push(item);
-            if (pq.size() > 10) pq.pop();
+            if (pq.size() > 10) pq.pop(); // Mantener el tamaño máximo de 10
         }
     }
 
