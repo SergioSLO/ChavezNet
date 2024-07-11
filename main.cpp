@@ -2,9 +2,9 @@
 #include "include/Arbol.h"
 using namespace std;
 
-
-
+//Comit para milton
 int main() {
+
     string nombreArchivo = "C://Users//flxam//Downloads//Proyecto - Progra III//ChavezNet//data//RawData_fixed.csv";
 
     auto peliculas = leerCSV(nombreArchivo);
@@ -22,11 +22,16 @@ int main() {
     }
 
     //Uso solo para prueba
-    Pelicula busqueda;
-    busqueda.titulo = tituloBusqueda;
+    string terminoBusqueda = "Zalinsky";
+    auto resultados = arbol.buscarenSinopsis(terminoBusqueda);
 
-    Nodo* resultado = arbol.buscarTitulo(busqueda);
-    imprimirPelicula(resultado->dato);
+    cout << "Peliculas con coincidencias para '" << terminoBusqueda << "':" << endl;
+    while (!resultados.empty()) {
+        auto top = resultados.top();
+        resultados.pop();
+        imprimirPelicula(top.pelicula);
+    }
+
     return 0;
 }
 

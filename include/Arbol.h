@@ -10,6 +10,8 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <queue>
+
 
 using namespace std;
 
@@ -20,6 +22,15 @@ struct Nodo {
 
     // Constructor
     Nodo(Pelicula dato) : dato(dato), izquierdo(nullptr), derecho(nullptr) {}
+};
+
+
+struct PeliculaConCoincidencias {
+    Pelicula pelicula;
+    int coincidencias;
+    bool operator<(const PeliculaConCoincidencias& otro) const {
+        return coincidencias < otro.coincidencias; // Orden ascendente, la cola prioriza el mayor
+    }
 };
 
 class ABS {
@@ -33,6 +44,9 @@ private:
     void buscar_en_titulo(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
     void buscar_en_sinopsis(Nodo* nodo, string busqueda, vector<Pelicula>& resultados);
 
+    void buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
+
+
 public:
 
     void insertar(Pelicula dato);
@@ -40,7 +54,7 @@ public:
     Nodo* buscarSinopsis(Pelicula dato);
     vector<Pelicula> buscar(string termino);
 
+    priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
 };
-
 
 #endif //CHAVEZNET_ARBOL_H
