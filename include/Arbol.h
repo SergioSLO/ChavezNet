@@ -40,14 +40,16 @@ private:
 
     Nodo* insertarAux(Nodo* nodo, Pelicula dato);
     Nodo* buscarTituloAux(Nodo* nodo, Pelicula dato);
-
     void buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
 
 
 public:
 
     void insertar(Pelicula dato);
+    Nodo *buscarTitulo(Pelicula dato);
     priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
+
+
 };
 
 #endif //CHAVEZNET_ARBOL_H
