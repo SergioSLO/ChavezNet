@@ -13,7 +13,7 @@ int main() {
     unordered_set<string> stopwords = {"a", "the", "and", "of", "in", "on", "at", "for", "with"};
 
     // Buscar la información de "A Hard Day's Night" - Ejemplo correcto: "Henry: Portrait of a Serial Killer"
-    string tituloBusqueda = "A Hard Day's Night";
+    string tituloBusqueda = "Zalinsky";
 
     // Creación del Árbol Binario de Búsqueda y la inserción del todas las pelicula al mismo
     ABS arbol;
