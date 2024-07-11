@@ -12,9 +12,6 @@ int main() {
     // Lista de stopwords
     unordered_set<string> stopwords = {"a", "the", "and", "of", "in", "on", "at", "for", "with"};
 
-    // Buscar la información de "A Hard Day's Night" - Ejemplo correcto: "Henry: Portrait of a Serial Killer"
-    string tituloBusqueda = "Zalinsky";
-
     // Creación del Árbol Binario de Búsqueda y la inserción del todas las pelicula al mismo
     ABS arbol;
     for (auto& par : peliculas) {
@@ -22,14 +19,36 @@ int main() {
     }
 
     //Uso solo para prueba
-    string terminoBusqueda = "Zalinsky";
-    auto resultados = arbol.buscarenSinopsis(terminoBusqueda);
+    string terminoBusqueda;
+    int tipoBusqueda;
 
-    cout << "Peliculas con coincidencias para '" << terminoBusqueda << "':" << endl;
-    while (!resultados.empty()) {
-        auto top = resultados.top();
-        resultados.pop();
-        imprimirPelicula(top.pelicula);
+    cout << "Ingresa el termino a buscar: ";
+    getline(cin, terminoBusqueda);
+
+    while (true) {
+        cout << "--------------------------" << endl
+             << "Para buscar por Titulo (1)" << endl
+             << "Para buscar por Sinopsis (2)" << endl
+             << "Para buscar por Tag (3)" << endl
+             << "Opcion: ";
+        cin >> tipoBusqueda;
+        cout << "--------------------------" << endl;
+
+        switch (tipoBusqueda) {
+            case 1:
+                arbol.buscar_e_Imprimir(terminoBusqueda, "Titulo");
+                break;
+            case 2:
+                arbol.buscar_e_Imprimir(terminoBusqueda, "Sinopsis");
+                break;
+            case 3:
+                arbol.buscar_e_Imprimir(terminoBusqueda, "Tag");
+                break;
+            default:
+                cout << "Opcion no valida. Intente de nuevo." << endl;
+                continue;
+        }
+        break;
     }
 
     return 0;

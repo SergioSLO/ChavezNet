@@ -49,6 +49,7 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
 
 void imprimirPelicula(const Pelicula& pelicula) {
 
+    cout << "-----------------------------------"<<  endl;
     cout << "IMDB ID: " << pelicula.imdb_id << endl;
     cout << "Titulo: " << pelicula.titulo << endl;
     cout << "Sinopsis: " << pelicula.sinopsis << endl;
@@ -57,6 +58,8 @@ void imprimirPelicula(const Pelicula& pelicula) {
         cout << tag << " ";
     }
     cout << endl;
+    cout << "-----------------------------------"<<  endl;
+    cout <<  endl;
 }
 
 vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords) {

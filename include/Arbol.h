@@ -39,17 +39,17 @@ private:
     unordered_set<string> stopwords;
 
     Nodo* insertarAux(Nodo* nodo, Pelicula dato);
-    Nodo* buscarTituloAux(Nodo* nodo, Pelicula dato);
+    void buscarenTituloAux(Nodo *nodo, const string &termino, priority_queue<PeliculaConCoincidencias> &pq,unordered_set<string> &stopwords);
     void buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
-
+    void buscarenTagsAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
 
 public:
 
     void insertar(Pelicula dato);
-    Nodo *buscarTitulo(Pelicula dato);
+    priority_queue<PeliculaConCoincidencias> buscarenTitulo(const string &termino);
     priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
-
-
+    priority_queue<PeliculaConCoincidencias> buscarenTags(const string& termino);
+    void buscar_e_Imprimir(const string &termino, const string& tipoBusqueda);
 };
 
 #endif //CHAVEZNET_ARBOL_H
