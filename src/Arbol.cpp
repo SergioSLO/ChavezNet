@@ -1,3 +1,4 @@
+#include "../include/Cliente.h"
 #include "../include/Arbol.h"
 
 using namespace std;
@@ -155,4 +156,71 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
         resultados.pop();
         imprimirPelicula(top.pelicula);
     }
+}
+
+double cosineSimilarity(const unordered_set<string>& tags1, const vector<string>& tags2) {
+    unordered_map<string, int> freq1, freq2;
+    for (const auto& tag : tags1) freq1[tag]++;
+    for (const auto& tag : tags2) freq2[tag]++;
+
+    double dotProduct = 0.0, norm1 = 0.0, norm2 = 0.0;
+    for (const auto& pair : freq1) {
+        dotProduct += pair.second * freq2[pair.first];
+        norm1 += pair.second * pair.second;
+    }
+    for (const auto& pair : freq2) {
+        norm2 += pair.second * pair.second;
+    }
+    cout << "Vector 1:" << endl;
+    for (const auto& pair : tags1) {
+        cout << pair << " ";
+    }
+    cout << endl;
+    cout << "Vector 2:" << endl;
+    for (const auto& pair : tags2) {
+        cout << pair << " ";
+    }
+    cout << endl;
+
+    cout << "Tags 1:" << endl;
+    for (const auto& pair : freq1) {
+        cout << pair.first << " " << pair.second << endl;
+    }
+    cout << "Tags 2:" << endl;
+    for (const auto& pair : freq2) {
+        cout << pair.first << " " << pair.second << endl;
+    }
+    cout << "Dot product: " << dotProduct << endl;
+
+    return dotProduct / (sqrt(norm1) * sqrt(norm2));
+}
+
+void ABS::recorrerYRecomendar(Cliente &cliente) {
+    recorrerYRecomendarAux(raiz, cliente);
+}
+
+void ABS::recorrerYRecomendarAux(Nodo *nodo, Cliente &cliente) {
+    if (nodo == nullptr) return;
+
+    recorrerYRecomendarAux(nodo->izquierdo, cliente);
+
+    // Calcular la similitud y agregar la recomendación
+    double similitud = 0.0;
+    similitud += cosineSimilarity(cliente.tags_gustados, nodo->dato.tags);
+    similitud /= cliente.likes.size();
+    cliente.agregarRecomendacion(nodo->dato, similitud);
+
+    recorrerYRecomendarAux(nodo->derecho, cliente);
+}
+
+void ABS::imprimir() {
+    imprimirAux(raiz);
+}
+
+void ABS::imprimirAux(Nodo *nodo) {
+    if (nodo == nullptr) return;
+
+    imprimirAux(nodo->izquierdo);
+    imprimirPelicula(nodo->dato);
+    imprimirAux(nodo->derecho);
 }

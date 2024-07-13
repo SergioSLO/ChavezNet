@@ -1,5 +1,6 @@
 #ifndef CHAVEZNET_PELICULA_H
 #define CHAVEZNET_PELICULA_H
+#pragma once // para q solo se llame una vez
 
 
 #include <string>
@@ -13,6 +14,8 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <queue>
+#include <cmath>
 
 using namespace std;
 

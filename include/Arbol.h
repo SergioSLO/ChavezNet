@@ -1,37 +1,14 @@
 #ifndef CHAVEZNET_ARBOL_H
 #define CHAVEZNET_ARBOL_H
+#pragma once // para q solo se llame una vez
 
-#include "Pelicula.h"
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <algorithm>
-#include <queue>
-
+#include "Nodo.h"
+#include "PeliculaConCoincidencias.h"
+#include "Cliente.h"
 
 using namespace std;
 
-struct Nodo {
-    Pelicula dato;
-    Nodo* izquierdo;
-    Nodo* derecho;
-
-    // Constructor
-    Nodo(Pelicula dato) : dato(dato), izquierdo(nullptr), derecho(nullptr) {}
-};
-
-
-struct PeliculaConCoincidencias {
-    Pelicula pelicula;
-    int coincidencias;
-    bool operator<(const PeliculaConCoincidencias& otro) const {
-        return coincidencias < otro.coincidencias; // Orden ascendente, la cola prioriza el mayor
-    }
-};
+class Cliente;
 
 class ABS {
 private:
@@ -42,14 +19,17 @@ private:
     void buscarenTituloAux(Nodo *nodo, const string &termino, priority_queue<PeliculaConCoincidencias> &pq,unordered_set<string> &stopwords);
     void buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
     void buscarenTagsAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
+    void recorrerYRecomendarAux(Nodo* nodo, Cliente& cliente);
 
 public:
-
     void insertar(Pelicula dato);
     priority_queue<PeliculaConCoincidencias> buscarenTitulo(const string &termino);
     priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
     priority_queue<PeliculaConCoincidencias> buscarenTags(const string& termino);
     void buscar_e_Imprimir(const string &termino, const string& tipoBusqueda);
+    void recorrerYRecomendar(Cliente& cliente);
+    void imprimir();
+    void imprimirAux(Nodo* nodo);
 };
 
 #endif //CHAVEZNET_ARBOL_H

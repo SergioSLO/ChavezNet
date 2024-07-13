@@ -78,7 +78,7 @@ void imprimirPelicula(const Pelicula& pelicula) {
     cout << "-----------------------------------"<<  endl;
     cout << "IMDB ID: " << pelicula.imdb_id << endl;
     cout << "Titulo: " << pelicula.titulo << endl;
-    cout << "Sinopsis: " << pelicula.sinopsis << endl;
+    //cout << "Sinopsis: " << pelicula.sinopsis << endl;
     cout << "Tags: ";
     for (const auto& tag : pelicula.tags) {
         cout << tag << " ";
@@ -87,6 +87,7 @@ void imprimirPelicula(const Pelicula& pelicula) {
     cout << "-----------------------------------"<<  endl;
     cout <<  endl;
 }
+
 
 
 
