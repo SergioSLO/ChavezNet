@@ -5,7 +5,7 @@ using namespace std;
 //Comit para milton
 int main() {
 
-    string nombreArchivo = "C://Users//flxam//Downloads//Proyecto - Progra III//ChavezNet//data//RawData_fixed.csv";
+    string nombreArchivo = "C:/Users/Angel/Desktop/ChavezNet/data/RawData_fixed.csv";
 
     auto peliculas = leerCSV(nombreArchivo);
 
