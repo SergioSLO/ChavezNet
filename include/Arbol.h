@@ -30,6 +30,8 @@ public:
     void recorrerYRecomendar(Cliente& cliente);
     void imprimir();
     void imprimirAux(Nodo* nodo);
+    int contarNodosAux(Nodo* nodo);
+    int contarNodos();
 };
 
 #endif //CHAVEZNET_ARBOL_H

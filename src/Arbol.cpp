@@ -158,11 +158,9 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
     }
 }
 
-double cosineSimilarity(const unordered_set<string>& tags1, const vector<string>& tags2) {
-    unordered_map<string, int> freq1, freq2;
-    for (const auto& tag : tags1) freq1[tag]++;
+double cosineSimilarity(const unordered_map<string, int>& freq1, const vector<string>& tags2) {
+    unordered_map<string, int> freq2;
     for (const auto& tag : tags2) freq2[tag]++;
-
     double dotProduct = 0.0, norm1 = 0.0, norm2 = 0.0;
     for (const auto& pair : freq1) {
         dotProduct += pair.second * freq2[pair.first];
@@ -171,27 +169,6 @@ double cosineSimilarity(const unordered_set<string>& tags1, const vector<string>
     for (const auto& pair : freq2) {
         norm2 += pair.second * pair.second;
     }
-    cout << "Vector 1:" << endl;
-    for (const auto& pair : tags1) {
-        cout << pair << " ";
-    }
-    cout << endl;
-    cout << "Vector 2:" << endl;
-    for (const auto& pair : tags2) {
-        cout << pair << " ";
-    }
-    cout << endl;
-
-    cout << "Tags 1:" << endl;
-    for (const auto& pair : freq1) {
-        cout << pair.first << " " << pair.second << endl;
-    }
-    cout << "Tags 2:" << endl;
-    for (const auto& pair : freq2) {
-        cout << pair.first << " " << pair.second << endl;
-    }
-    cout << "Dot product: " << dotProduct << endl;
-
     return dotProduct / (sqrt(norm1) * sqrt(norm2));
 }
 
@@ -204,7 +181,6 @@ void ABS::recorrerYRecomendarAux(Nodo *nodo, Cliente &cliente) {
 
     recorrerYRecomendarAux(nodo->izquierdo, cliente);
 
-    // Calcular la similitud y agregar la recomendación
     double similitud = 0.0;
     similitud += cosineSimilarity(cliente.tags_gustados, nodo->dato.tags);
     similitud /= cliente.likes.size();
@@ -223,4 +199,12 @@ void ABS::imprimirAux(Nodo *nodo) {
     imprimirAux(nodo->izquierdo);
     imprimirPelicula(nodo->dato);
     imprimirAux(nodo->derecho);
+}
+int ABS::contarNodos() {
+    return contarNodosAux(raiz);
+}
+
+int ABS::contarNodosAux(Nodo* nodo) {
+    if (nodo == nullptr) return 0;
+    return 1 + contarNodosAux(nodo->izquierdo) + contarNodosAux(nodo->derecho);
 }

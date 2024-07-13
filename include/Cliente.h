@@ -7,12 +7,15 @@
 
 class ABS;
 
+
+
 class Cliente {
 private:
     string nombre;
     vector<Pelicula> likes;
     vector<Pelicula> peliculasPorVer;
-    unordered_set<string> tags_gustados;
+    unordered_map<string, int> tags_gustados;
+    double mejor = 0;
     priority_queue<pair<double, Pelicula>, vector<pair<double, Pelicula>>, greater<>> recomendaciones;
 
 public:

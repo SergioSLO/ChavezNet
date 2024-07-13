@@ -15,7 +15,7 @@ Cliente::Cliente(string nombre) {
 void Cliente::agregarLike(const Pelicula& pelicula) {
     likes.push_back(pelicula);
     for (const auto& tag : pelicula.tags) {
-        tags_gustados.insert(tag);
+        tags_gustados[tag]++;
     }
 }
 
@@ -42,7 +42,9 @@ void Cliente::generarRecomendaciones(ABS &arbol){
 }
 
 void Cliente::agregarRecomendacion(const Pelicula &pelicula, double intensidad) {
-    cout << "Se agrego la pelicula " << pelicula.titulo << " con intensidad " << intensidad << endl;
+    if(intensidad > mejor){
+        mejor = intensidad;
+    }
     if (recomendaciones.size() < 20) {
         recomendaciones.emplace(intensidad, pelicula);
     } else if (intensidad > recomendaciones.top().first) {
@@ -53,14 +55,23 @@ void Cliente::agregarRecomendacion(const Pelicula &pelicula, double intensidad) 
 
 void Cliente::imprimirRecomenaciones() {
     cout << "tags" << endl;
-    for ( auto tag : tags_gustados){
-        cout << tag << endl;
+    for (const auto& tag : tags_gustados){
+        cout << tag.first << " " << tag.second << endl;
     }
     cout << "-----------" << endl;
+    cout << "Mejor: " << mejor << endl;
     cout << "Recomendaciones para " << nombre << ":" << endl;
-    auto reco = recomendaciones; // Make a copy of the queue
+
+    // Transferir elementos a un vector temporal
+    vector<pair<double, Pelicula>> temp;
+    auto reco = recomendaciones; // Hacer una copia de la cola
     while (!reco.empty()) {
-        cout << reco.top().second.titulo << " con intensidad " << reco.top().first << endl;
+        temp.push_back(reco.top());
         reco.pop();
+    }
+
+    // Imprimir elementos en orden inverso
+    for (auto it = temp.rbegin(); it != temp.rend(); ++it) {
+        cout << it->second.titulo << " con intensidad " << it->first << endl;
     }
 }
