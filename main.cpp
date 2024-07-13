@@ -1,5 +1,11 @@
 #include "include/Pelicula.h"
 #include "include/Arbol.h"
+#include "include/DatabaseSingleton.h"
+#include "include/IStrategyBusqueda.h"
+#include "include/Observer.h"
+#include "include/DecoradorPelicula.h"
+#include "include/Pelicula.h"
+#include "include/ABS.h"
 using namespace std;
 
 //Comit para milton
