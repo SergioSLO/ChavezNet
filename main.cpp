@@ -5,6 +5,7 @@ using namespace std;
 //Comit para Felix
 int main() {
 
+    //Prueba
     string nombreArchivo = "C:/Users/flxam/OneDrive/Desktop/ChavezNet/data/RawData_fixed.csv";
 
     auto peliculas = leerCSV(nombreArchivo);
