@@ -2,10 +2,10 @@
 #include "include/Arbol.h"
 using namespace std;
 
-//Comit para milton
+//Comit para Felix
 int main() {
 
-    string nombreArchivo = "C:/Users/tokio/OneDrive/Escritorio/ChavezNet/data/RawData_fixed.csv";
+    string nombreArchivo = "C:/Users/flxam/OneDrive/Desktop/ChavezNet/data/RawData_fixed.csv";
 
     auto peliculas = leerCSV(nombreArchivo);
 
