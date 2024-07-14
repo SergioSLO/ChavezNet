@@ -141,6 +141,15 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
     else if (tipoBusqueda == "Tag") {
         resultados = buscarenTags(termino);
     }
+    else if (tipoBusqueda == "Id"){
+        Pelicula resultado = buscarPorId(termino);
+        if (resultado.imdb_id.empty()) {
+            cout << "No se encontraron coincidencias para '" << termino << "' en " << tipoBusqueda << "." << endl;
+            return;
+        }
+        cout << "Pelicula encontrada para '" << termino << "' en " << tipoBusqueda << ":" << endl;
+        imprimirPelicula(resultado);
+    }
 
     if (resultados.empty()) {
         cout << "No se encontraron coincidencias para '" << termino << "' en " << tipoBusqueda << "." << endl;
@@ -212,7 +221,7 @@ Pelicula ABS::buscarPorId(const string &id) {
 
 Pelicula ABS::buscarPorIdAux(Nodo<Pelicula> *nodo, const string &id) {
     if (nodo == nullptr) {
-        return Pelicula(); // Return a default Pelicula object if not found
+        return {};
     }
     if (nodo->dato.imdb_id == id) {
         return nodo->dato;

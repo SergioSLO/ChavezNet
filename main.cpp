@@ -32,9 +32,10 @@ void buscarPelicula(ABS& arbol) {
          << "Para buscar por Titulo (1)" << endl
          << "Para buscar por Sinopsis (2)" << endl
          << "Para buscar por Tag (3)" << endl
+         << "Para buscar por Id (4)" << endl
          << "Opcion: ";
     cin >> tipoBusqueda;
-    cin.ignore(); // Limpiar el buffer de entrada
+    cin.ignore();
     cout << "--------------------------" << endl;
 
     switch (tipoBusqueda) {
@@ -46,6 +47,9 @@ void buscarPelicula(ABS& arbol) {
             break;
         case 3:
             arbol.buscar_e_Imprimir(terminoBusqueda, "Tag");
+            break;
+        case 4:
+            arbol.buscar_e_Imprimir(terminoBusqueda, "Id");
             break;
         default:
             cout << "Opcion no valida. Intente de nuevo." << endl;
@@ -77,9 +81,9 @@ int main() {
     // Arbolito (singleton)
     ABS& arbol = ABS::getInstance();
     crearArbolBinario(peliculas, arbol);
-    cout << "Cantidad de nodos: " << arbol.contarNodos() << endl;
+    cout << "Cantidad de Películas leídas: " << arbol.contarNodos() << endl;
 
-    // Cliente
+    // Cliente (Factory)
     string nombreCliente;
     cout << "Ingresa tu nombre: ";
     getline(cin, nombreCliente);
@@ -89,32 +93,26 @@ int main() {
     Cliente* cliente = clienteFactory.crearCliente("usuario");
     int opcion;
 
-    // Bucle principal del menu
     while (true) {
         mostrarMenu();
         cin >> opcion;
-        cin.ignore(); // Limpiar el buffer de entrada
+        cin.ignore();
 
         switch (opcion) {
             case 1:
-                // Buscar pelicula
                 buscarPelicula(arbol);
                 break;
             case 2:
-                // Ver likes
                 cliente->imprimirLikes();
                 break;
             case 3:
-                // Ver recomendaciones
                 cliente->generarRecomendaciones(arbol);
                 cliente->imprimirRecomenaciones();
                 break;
             case 4:
-                // Dar like a una pelicula
                 darLikePelicula(cliente, peliculas);
                 break;
             case 5:
-                // Salir
                 cout << "Saliendo del programa..." << endl;
                 return 0;
             default:

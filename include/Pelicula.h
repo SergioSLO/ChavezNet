@@ -24,6 +24,7 @@ struct Pelicula {
     string titulo;
     string sinopsis;
     vector<string> tags;
+    Pelicula()= default;
 };
 
 
