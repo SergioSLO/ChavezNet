@@ -1,6 +1,7 @@
 #include "include/Pelicula.h"
 #include "include/Cliente.h"
 #include "include/Arbol.h"
+#include "ClienteConcreteFactory.h"
 
 using namespace std;
 
@@ -15,12 +16,10 @@ void mostrarMenu() {
     cout << "Opcion: ";
 }
 
-ABS crearArbolBinario(const unordered_map<string, Pelicula>& peliculas) {
-    ABS arbol;
+void crearArbolBinario(const unordered_map<string, Pelicula>& peliculas, ABS& arbol) {
     for (const auto& par : peliculas) {
         arbol.insertar(par.second);
     }
-    return arbol;
 }
 
 void buscarPelicula(ABS& arbol) {
@@ -53,14 +52,14 @@ void buscarPelicula(ABS& arbol) {
     }
 }
 
-void darLikePelicula(Cliente& cliente, const unordered_map<string, Pelicula>& peliculas) {
+void darLikePelicula(Cliente* cliente, const unordered_map<string, Pelicula>& peliculas) {
     string nombrePelicula;
     cout << "Ingresa el nombre de la pelicula a la que quieres dar like: ";
     getline(cin, nombrePelicula);
 
     auto it = peliculas.find(nombrePelicula);
     if (it != peliculas.end()) {
-        cliente.agregarLike(it->second);
+        cliente->agregarLike(it->second);
         cout << "Le has dado like a: " << nombrePelicula << endl;
     } else {
         cout << "La pelicula no fue encontrada. Intenta de nuevo." << endl;
@@ -73,10 +72,11 @@ int main() {
     string nombreArchivo = "C:\\Users\\LENOVO\\OneDrive\\Escritorio\\UTEC-ciclo-3\\Programacion-III\\ChavezNet\\data\\RawData_fixed.csv";
 
     // leer
+    unordered_map<string , Pelicula> peliculasPorId = leerCSVconId(nombreArchivo);
     unordered_map<string, Pelicula> peliculas = leerCSV(nombreArchivo);
-
-    // Arbolito
-    ABS arbol = crearArbolBinario(peliculas);
+    // Arbolito (singleton)
+    ABS& arbol = ABS::getInstance();
+    crearArbolBinario(peliculas, arbol);
     cout << "Cantidad de nodos: " << arbol.contarNodos() << endl;
 
     // Cliente
@@ -84,8 +84,9 @@ int main() {
     cout << "Ingresa tu nombre: ";
     getline(cin, nombreCliente);
 
-    Cliente cliente(nombreCliente);
+    ConcreteClienteFactory clienteFactory;
 
+    Cliente* cliente = clienteFactory.crearCliente("usuario");
     int opcion;
 
     // Bucle principal del menu
@@ -101,12 +102,12 @@ int main() {
                 break;
             case 2:
                 // Ver likes
-                cliente.imprimirLikes();
+                cliente->imprimirLikes();
                 break;
             case 3:
                 // Ver recomendaciones
-                cliente.generarRecomendaciones(arbol);
-                cliente.imprimirRecomenaciones();
+                cliente->generarRecomendaciones(arbol);
+                cliente->imprimirRecomenaciones();
                 break;
             case 4:
                 // Dar like a una pelicula
