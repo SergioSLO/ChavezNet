@@ -26,9 +26,9 @@ struct Pelicula {
     vector<string> tags;
 };
 
-//string leerSinopsis(ifstream& archivo);
-//bool leerLinea(ifstream& archivo, string& linea);
+
 unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo);
+unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo);
 void imprimirPelicula(const Pelicula& pelicula);
 vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
 
