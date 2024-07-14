@@ -1,6 +1,6 @@
-#include <regex>
-#include <set>
+
 #include "../include/Pelicula.h"
+#include "Arbol.h"
 
 
 unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
@@ -102,68 +102,9 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo) {
     return peliculas;
 }
 
-void imprimirPelicula(const Pelicula& pelicula) {
-
-    cout << "-----------------------------------"<<  endl;
-    cout << "IMDB ID: " << pelicula.imdb_id << endl;
-    cout << "Titulo: " << pelicula.titulo << endl;
-    //cout << "Sinopsis: " << pelicula.sinopsis << endl;
-    cout << "Tags: ";
-    for (const auto& tag : pelicula.tags) {
-        cout << tag << " ";
-    }
-    cout << endl;
-    cout << "-----------------------------------"<<  endl;
-    cout <<  endl;
-}
 
 
-
-
-
-
-
-
-
-//string leerSinopsis(ifstream& archivo) {
-//    string sinopsis;
-//    string linea;
-//    bool enComillas = false;
-//
-//    while (getline(archivo, linea)) {
-//        for (char ch : linea) {
-//            if (ch == '"' && (sinopsis.empty() || enComillas)) {
-//                enComillas = !enComillas;
-//            } else if (ch == ';' && !enComillas) {
-//                return sinopsis;
-//            } else {
-//                sinopsis += ch;
-//            }
-//        }
-//        sinopsis += '\n'; // Mantener el salto de línea en la sinopsis
-//    }
-//
-//    return sinopsis;
-//}
-//
-//bool leerLinea(ifstream& archivo, string& linea) {
-//    bool enComillas = false;
-//    linea.clear();
-//    char ch;
-//    while (archivo.get(ch)) {
-//        if (ch == '"' && (linea.empty() || enComillas)) {
-//            enComillas = !enComillas;
-//        }
-//        linea += ch;
-//        if (ch == '\n' && !enComillas) {
-//            break;
-//        }
-//    }
-//    return !linea.empty();
-//}
-
-unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo) {
-    unordered_map<string , Pelicula> peliculas;
+void leerCSVenArbol(const string& nombreArchivo) {
     ifstream archivo(nombreArchivo);
     string linea;
     mutex mtx;
@@ -187,7 +128,7 @@ unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo) {
 
     if (!archivo.is_open()) {
         cerr << "No se pudo abrir el archivo: " << nombreArchivo << endl;
-        return peliculas;
+        return;
     }
 
     // Leer y ignorar la cabecera
@@ -211,12 +152,11 @@ unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo) {
     // Crear y lanzar los hilos
     vector<thread> hilos;
     for (int i = 0; i < numHilos; ++i) {
-        hilos.emplace_back([&peliculas, &partes, &mtx, &imdb_regex, &valid_tags, i]() {
+        hilos.emplace_back([&partes, &mtx, &imdb_regex, &valid_tags, i]() {
             for (const string& linea : partes[i]) {
                 istringstream stream(linea);
                 Pelicula pelicula;
 
-                // Leer imdb_id
                 string imdb_id;
                 getline(stream, imdb_id, ';');
 
@@ -249,15 +189,98 @@ unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo) {
 
                 // Almacenar la película en el unordered_map
                 lock_guard<mutex> guard(mtx);
-                peliculas[imdb_id] = pelicula;
+                ABS::getInstance().insertar(pelicula);
             }
         });
     }
 
-    // Esperar a que todos los hilos terminen
     for (thread& hilo : hilos) {
         hilo.join();
     }
+}
 
-    return peliculas;
+void Pelicula::imprimir(Cliente* cliente) const {
+    system("cls");
+    cout << "\033[2J\033[1;1H"; // Limpiar pantalla
+    int opcion;
+    int highlight = 0;
+    const int numOptions = 4;
+    char input;
+
+    while (true) {
+        cout << "\033[1;32m";
+        cout << "IMDB ID: " << imdb_id << endl << endl;
+        cout << "\033[1;34m";
+        cout << "Titulo: " << titulo << endl << endl;
+        cout << "\033[1;33m";
+        cout << "Sinopsis: " << sinopsis << endl << endl;
+        cout << "\033[1;35m";
+        cout << "Tags: ";
+        for (const auto& tag : tags) {
+            if(tag != tags.back())
+                cout << tag << " - ";
+            else
+                cout << tag << endl;
+        }
+        cout << endl << endl;
+
+        cout << "\033[1;36m";
+
+        cout << "Seleccione una opcion:" << endl;
+        cout << endl;
+        cout << "\033[1;36m"; // azul claro para el submenú
+        cout << "--------------------------" << endl;
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == highlight) {
+                cout << "\033[1;31m"; // rojo para la opción seleccionada
+                cout << " -> ";
+            } else {
+                cout << "    ";
+            }
+
+            switch (i) {
+                case 0: cout << "Dar like" << endl; break;
+                case 1: cout << "Ver mas tarde" << endl; break;
+                case 2: cout << "Ambos" << endl; break;
+                case 3: cout << "Ninguno" << endl; break;
+            }
+
+            if (i == highlight) {
+                cout << "\033[1;36m"; // Resetear color
+            }
+        }
+        cout << "--------------------------" << endl;
+        cout << "\033[0m"; // Resetear color
+
+        input = _getch();
+
+        if (input == 72) { // Flecha arriba
+            highlight = (highlight == 0) ? numOptions - 1 : highlight - 1;
+        } else if (input == 80) { // Flecha abajo
+            highlight = (highlight == numOptions - 1) ? 0 : highlight + 1;
+        } else if (input == 13) { // Enter
+            opcion = highlight;
+            break;
+        }
+    }
+    cout << "\033[0m"; // Resetear color
+
+    switch (opcion) {
+        case 0:
+            cliente->agregarLike(*this);
+            cout << "Like agregado a la pelicula" << endl;
+            break;
+        case 1:
+            cliente->agregarPorVer(*this);
+            cout << "Pelicula agregada a tu lista de peliculas por ver" << endl;
+            break;
+        case 2:
+            cliente->agregarLike(*this);
+            cliente->agregarPorVer(*this);
+            cout << "Pelicula agregada a tu lista de peliculas por ver y like agregado" << endl;
+            break;
+        case 3:
+            cout << "No se ha realizado ninguna accion" << endl;
+            break;
+    }
 }

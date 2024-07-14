@@ -10,12 +10,14 @@
 #include <fstream>
 #include <thread>
 #include <mutex>
-
 #include <sstream>
 #include <iostream>
 #include <algorithm>
 #include <queue>
 #include <cmath>
+
+class ABS;
+class Cliente;
 
 using namespace std;
 
@@ -25,6 +27,10 @@ struct Pelicula {
     string sinopsis;
     vector<string> tags;
     Pelicula()= default;
+    void imprimir(Cliente* cliente) const;
+    bool operator<(const Pelicula& otra) const {
+        return imdb_id < otra.imdb_id;
+    }
 };
 
 
@@ -32,6 +38,6 @@ unordered_map<string, Pelicula> leerCSV(const string& nombreArchivo);
 unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo);
 void imprimirPelicula(const Pelicula& pelicula);
 vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
-
+void leerCSVenArbol(const string& nombreArchivo);
 
 #endif //CHAVEZNET_PELICULA_H

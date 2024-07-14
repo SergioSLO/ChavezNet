@@ -4,8 +4,20 @@
 
 
 #include <utility>
-
-#include "Pelicula.h"
+#include <regex>
+#include <set>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <fstream>
+#include <thread>
+#include <mutex>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <cmath>
 
 template <typename T>
 struct Nodo {

@@ -12,7 +12,7 @@ class ABS;
 class Cliente {
 private:
     string nombre;
-    vector<Pelicula> likes;
+    set<Pelicula> likes;
     vector<Pelicula> peliculasPorVer;
     unordered_map<string, int> tags_gustados;
     double mejor = 0;

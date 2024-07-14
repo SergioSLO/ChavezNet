@@ -1,87 +1,170 @@
-#include "include/Pelicula.h"
-#include "include/Cliente.h"
-#include "include/Arbol.h"
+#include "Pelicula.h"
+#include "Cliente.h"
+#include "Arbol.h"
 #include "ClienteConcreteFactory.h"
 
 using namespace std;
 
-void mostrarMenu() {
-    cout << "--------------------------" << endl;
-    cout << "1. Buscar pelicula" << endl;
-    cout << "2. Ver mis likes" << endl;
-    cout << "3. Ver mis recomendaciones" << endl;
-    cout << "4. Dar like a una pelicula" << endl;
-    cout << "5. Salir" << endl;
-    cout << "--------------------------" << endl;
-    cout << "Opcion: ";
+void limpiarTerminal() {
+    system("cls");
+    cout << "\033[2J\033[1;1H";
 }
 
-void crearArbolBinario(const unordered_map<string, Pelicula>& peliculas, ABS& arbol) {
-    for (const auto& par : peliculas) {
-        arbol.insertar(par.second);
+int mostrarMenu() {
+    int highlight = 0;
+    const int numOptions = 6;
+    char input;
+
+    while (true) {
+        limpiarTerminal();
+        cout << "\033[1;32m"; // verde para el título
+        cout << "--------------------------" << endl;
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == highlight) {
+                cout << "\033[1;31m"; // rojito
+                cout << " -> ";
+            } else {
+                cout << "    ";
+            }
+
+            switch (i) {
+                case 0: cout << "1. Buscar pelicula" << endl; break;
+                case 1: cout << "2. Ver mis likes" << endl; break;
+                case 2: cout << "3. Ver mis recomendaciones" << endl; break;
+                case 3: cout << "4. Ver mis guardados" << endl; break;
+                case 4: cout << "5. Dar like a una pelicula" << endl; break;
+                case 5: cout << "6. Salir" << endl; break;
+            }
+
+            if (i == highlight) {
+                cout << "\033[1;32m";
+            }
+        }
+        cout << "--------------------------" << endl;
+        cout << "\033[0m"; // Resetear color
+
+        input = _getch();
+
+        if (input == 72) { // Flecha arriba
+            highlight = (highlight == 0) ? numOptions - 1 : highlight - 1;
+        } else if (input == 80) { // Flecha abajo
+            highlight = (highlight == numOptions - 1) ? 0 : highlight + 1;
+        } else if (input == 13) { // Enter
+            break;
+        }
     }
+
+    limpiarTerminal();
+    return highlight + 1; // Retornar la opción seleccionada (1-based index)
 }
 
-void buscarPelicula(ABS& arbol) {
+int seleccionarTipoBusqueda() {
+    int highlight = 0;
+    const int numOptions = 4;
+    char input;
+
+    while (true) {
+        limpiarTerminal();
+        cout << "\033[1;34m"; // azul para el submenú
+        cout << "--------------------------" << endl;
+        for (int i = 0; i < numOptions; ++i) {
+            if (i == highlight) {
+                cout << "\033[1;31m"; // rojo para la opción seleccionada
+                cout << "> ";
+            } else {
+                cout << "  ";
+            }
+
+            switch (i) {
+                case 0: cout << "Para buscar por Titulo" << endl; break;
+                case 1: cout << "Para buscar por Sinopsis" << endl; break;
+                case 2: cout << "Para buscar por Tag" << endl; break;
+                case 3: cout << "Para buscar por Id" << endl; break;
+            }
+
+            if (i == highlight) {
+                cout << "\033[1;34m";
+            }
+        }
+        cout << "--------------------------" << endl;
+        cout << "\033[0m";
+
+        input = _getch();
+
+        if (input == 72) { // Flecha arriba
+            highlight = (highlight == 0) ? numOptions - 1 : highlight - 1;
+        } else if (input == 80) { // Flecha abajo
+            highlight = (highlight == numOptions - 1) ? 0 : highlight + 1;
+        } else if (input == 13) { // Enter
+            break;
+        }
+    }
+
+    limpiarTerminal();
+    return highlight + 1; // se usa mas 1
+}
+
+void buscarPelicula(ABS& arbol, Cliente* cliente) {
     string terminoBusqueda;
-    int tipoBusqueda;
+
+
+
+    int tipoBusqueda = seleccionarTipoBusqueda();
 
     cout << "Ingresa el termino a buscar: ";
     getline(cin, terminoBusqueda);
-    cout << "--------------------------" << endl
-         << "Para buscar por Titulo (1)" << endl
-         << "Para buscar por Sinopsis (2)" << endl
-         << "Para buscar por Tag (3)" << endl
-         << "Para buscar por Id (4)" << endl
-         << "Opcion: ";
-    cin >> tipoBusqueda;
-    cin.ignore();
+
     cout << "--------------------------" << endl;
 
     switch (tipoBusqueda) {
         case 1:
-            arbol.buscar_e_Imprimir(terminoBusqueda, "Titulo");
+            arbol.buscar_e_Imprimir(terminoBusqueda, "Titulo", cliente);
             break;
         case 2:
-            arbol.buscar_e_Imprimir(terminoBusqueda, "Sinopsis");
+            arbol.buscar_e_Imprimir(terminoBusqueda, "Sinopsis", cliente);
             break;
         case 3:
-            arbol.buscar_e_Imprimir(terminoBusqueda, "Tag");
+            arbol.buscar_e_Imprimir(terminoBusqueda, "Tag", cliente);
             break;
         case 4:
-            arbol.buscar_e_Imprimir(terminoBusqueda, "Id");
+            arbol.buscar_e_Imprimir(terminoBusqueda, "Id", cliente);
             break;
         default:
             cout << "Opcion no valida. Intente de nuevo." << endl;
     }
+
+    cout << "Presione enter para seguir";
+    cin.get();
 }
 
-void darLikePelicula(Cliente* cliente, const unordered_map<string, Pelicula>& peliculas) {
+void darLikePelicula(Cliente* cliente) {
     string nombrePelicula;
-    cout << "Ingresa el nombre de la pelicula a la que quieres dar like: ";
+    cout << "Ingresa el id de la pelicula a la que quieres dar like: ";
     getline(cin, nombrePelicula);
 
-    auto it = peliculas.find(nombrePelicula);
-    if (it != peliculas.end()) {
-        cliente->agregarLike(it->second);
-        cout << "Le has dado like a: " << nombrePelicula << endl;
+    auto it = ABS::getInstance().buscarPorId(nombrePelicula);
+    if(it.imdb_id.empty()){
+        cout << "No se encontro la pelicula con el id: " << nombrePelicula << endl << endl;
+        cout << "Presione enter para seguir";
+        cin.get();
+        return;
     } else {
-        cout << "La pelicula no fue encontrada. Intenta de nuevo." << endl;
+        cliente->agregarLike(it);
+        cout << "Like agregado a la pelicula: " << it.titulo << endl;
     }
-}
+    cout << "Presione enter para seguir";
+    cin.get();
 
+}
 
 int main() {
     // Ruta del archivo CSV
     string nombreArchivo = "C:\\Users\\LENOVO\\OneDrive\\Escritorio\\UTEC-ciclo-3\\Programacion-III\\ChavezNet\\data\\RawData_fixed.csv";
 
-    // leer
-    unordered_map<string , Pelicula> peliculasPorId = leerCSVconId(nombreArchivo);
-    unordered_map<string, Pelicula> peliculas = leerCSV(nombreArchivo);
+
     // Arbolito (singleton)
     ABS& arbol = ABS::getInstance();
-    crearArbolBinario(peliculas, arbol);
-    cout << "Cantidad de Películas leídas: " << arbol.contarNodos() << endl;
+    leerCSVenArbol(nombreArchivo);
 
     // Cliente (Factory)
     string nombreCliente;
@@ -93,14 +176,12 @@ int main() {
     Cliente* cliente = clienteFactory.crearCliente("usuario");
     int opcion;
 
-    while (true) {
-        mostrarMenu();
-        cin >> opcion;
-        cin.ignore();
+    while (true) {//while principal
+        opcion = mostrarMenu();
 
         switch (opcion) {
             case 1:
-                buscarPelicula(arbol);
+                buscarPelicula(arbol, cliente);
                 break;
             case 2:
                 cliente->imprimirLikes();
@@ -110,9 +191,12 @@ int main() {
                 cliente->imprimirRecomenaciones();
                 break;
             case 4:
-                darLikePelicula(cliente, peliculas);
+                cliente->imprimirPorVer();
                 break;
             case 5:
+                darLikePelicula(cliente);
+                break;
+            case 6:
                 cout << "Saliendo del programa..." << endl;
                 return 0;
             default:

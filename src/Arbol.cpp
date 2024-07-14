@@ -12,6 +12,10 @@ Nodo<Pelicula> *ABS::insertarAux(Nodo<Pelicula> *nodo, Pelicula dato) {
     if (nodo == nullptr) {
         return new Nodo<Pelicula>(dato);
     }
+    if (dato.imdb_id == nodo->dato.imdb_id) {
+        cout << "ID repetido: " << dato.imdb_id << endl;
+        return nodo;
+    }
     if (dato.imdb_id < nodo->dato.imdb_id) {
         nodo->izquierdo = insertarAux(nodo->izquierdo, dato);
     } else {
@@ -19,7 +23,6 @@ Nodo<Pelicula> *ABS::insertarAux(Nodo<Pelicula> *nodo, Pelicula dato) {
     }
     return nodo;
 }
-
 priority_queue<PeliculaConCoincidencias> ABS::buscarenTitulo(const string& termino) {
     priority_queue<PeliculaConCoincidencias> pq;
     if (raiz) {
@@ -129,7 +132,7 @@ void ABS::buscarenTagsAux(Nodo<Pelicula>* nodo, const string& termino, priority_
     buscarenTagsAux(nodo->derecho, termino, pq, stopwords);
 }
 
-void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
+void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda, Cliente* cliente) {
     priority_queue<PeliculaConCoincidencias> resultados;
 
     if (tipoBusqueda == "Titulo") {
@@ -141,14 +144,15 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
     else if (tipoBusqueda == "Tag") {
         resultados = buscarenTags(termino);
     }
-    else if (tipoBusqueda == "Id"){
+    else if (tipoBusqueda == "Id") {
         Pelicula resultado = buscarPorId(termino);
         if (resultado.imdb_id.empty()) {
             cout << "No se encontraron coincidencias para '" << termino << "' en " << tipoBusqueda << "." << endl;
             return;
         }
         cout << "Pelicula encontrada para '" << termino << "' en " << tipoBusqueda << ":" << endl;
-        imprimirPelicula(resultado);
+        resultado.imprimir(cliente);
+        return;
     }
 
     if (resultados.empty()) {
@@ -156,14 +160,44 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
         return;
     }
 
-    cout << "Peliculas encontradas para '" << termino << "' en " << tipoBusqueda << ":" << endl;
+    vector<PeliculaConCoincidencias> temp;
     while (!resultados.empty()) {
-        auto top = resultados.top();
+        temp.push_back(resultados.top());
         resultados.pop();
-        imprimirPelicula(top.pelicula);
+    }
+
+    int highlight = 0;
+    char input;
+
+    while (true) {
+        system("cls");
+        cout << "\033[2J\033[1;1H"; // Limpiar pantalla
+
+        cout << endl << endl << "Peliculas encontradas para '" << termino << "' en " << tipoBusqueda << ":" << endl;
+        for (size_t i = 0; i < temp.size(); ++i) {
+            if (i == highlight) {
+                cout << "\033[1;31m"; // rojito
+                cout << " -> ";
+            } else {
+                cout << "    ";
+            }
+            cout << "ID: " << temp[i].pelicula.imdb_id << " - " << temp[i].pelicula.titulo << endl<< "\033[0m";
+        }
+
+        input = _getch();
+
+        if (input == 72) { // Flecha arriba
+            highlight = (highlight == 0) ? temp.size() - 1 : highlight - 1;
+        } else if (input == 80) { // Flecha abajo
+            highlight = (highlight == temp.size() - 1) ? 0 : highlight + 1;
+        } else if (input == 13) { // Enter
+            system("cls");
+            cout << "\033[2J\033[1;1H";
+            temp[highlight].pelicula.imprimir(cliente);
+            break;
+        }
     }
 }
-
 double cosineSimilarity(const unordered_map<string, int>& freq1, const vector<string>& tags2) {
     unordered_map<string, int> freq2;
     for (const auto& tag : tags2) freq2[tag]++;
@@ -190,22 +224,12 @@ void ABS::recorrerYRecomendarAux(Nodo<Pelicula> *nodo, Cliente &cliente) {
     double similitud = 0.0;
     similitud += cosineSimilarity(cliente.tags_gustados, nodo->dato.tags);
     similitud /= cliente.likes.size();
-    cliente.agregarRecomendacion(nodo->dato, similitud);
+    if (similitud > 0.0) cliente.agregarRecomendacion(nodo->dato, similitud);
 
     recorrerYRecomendarAux(nodo->derecho, cliente);
 }
 
-void ABS::imprimir() {
-    imprimirAux(raiz);
-}
 
-void ABS::imprimirAux(Nodo<Pelicula> *nodo) {
-    if (nodo == nullptr) return;
-
-    imprimirAux(nodo->izquierdo);
-    imprimirPelicula(nodo->dato);
-    imprimirAux(nodo->derecho);
-}
 int ABS::contarNodos() {
     return contarNodosAux(raiz);
 }

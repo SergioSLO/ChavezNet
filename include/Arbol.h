@@ -8,7 +8,7 @@
 #include <unordered_set>
 #include <queue>
 #include <string>
-
+#include <conio.h>
 using namespace std;
 
 class Cliente;
@@ -30,7 +30,6 @@ private:
     void buscarenTagsAux(Nodo<Pelicula>* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords);
     void recorrerYRecomendarAux(Nodo<Pelicula>* nodo, Cliente& cliente);
     Pelicula buscarPorIdAux(Nodo<Pelicula>* nodo, const string& id);
-    void imprimirAux(Nodo<Pelicula>* nodo);
     int contarNodosAux(Nodo<Pelicula>* nodo);
 
 public:
@@ -44,9 +43,8 @@ public:
     priority_queue<PeliculaConCoincidencias> buscarenSinopsis(const string& termino);
     priority_queue<PeliculaConCoincidencias> buscarenTags(const string& termino);
     Pelicula buscarPorId(const string& id);
-    void buscar_e_Imprimir(const string &termino, const string& tipoBusqueda);
+    void buscar_e_Imprimir(const string& termino, const string &tipoBusqueda, Cliente* cliente);
     void recorrerYRecomendar(Cliente& cliente);
-    void imprimir();
     int contarNodos();
 };
 
