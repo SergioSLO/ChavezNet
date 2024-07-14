@@ -7,11 +7,12 @@
 
 #include "Pelicula.h"
 
+template <typename T>
 struct Nodo {
-    Pelicula dato;
+    T dato;
     Nodo* izquierdo;
     Nodo* derecho;
-    explicit Nodo(Pelicula dato) : dato(std::move(dato)), izquierdo(nullptr), derecho(nullptr) {}
+    explicit Nodo(T dato) : dato(std::move(dato)), izquierdo(nullptr), derecho(nullptr) {}
     ~Nodo() {
         delete izquierdo;
         delete derecho;

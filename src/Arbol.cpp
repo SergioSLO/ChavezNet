@@ -8,11 +8,11 @@ void ABS::insertar(Pelicula dato) {
     raiz = insertarAux(raiz, dato);
 }
 
-Nodo *ABS::insertarAux(Nodo *nodo, Pelicula dato) {
+Nodo<Pelicula> *ABS::insertarAux(Nodo<Pelicula> *nodo, Pelicula dato) {
     if (nodo == nullptr) {
-        return new Nodo(dato);
+        return new Nodo<Pelicula>(dato);
     }
-    if (dato.titulo < nodo->dato.titulo) {
+    if (dato.imdb_id < nodo->dato.imdb_id) {
         nodo->izquierdo = insertarAux(nodo->izquierdo, dato);
     } else {
         nodo->derecho = insertarAux(nodo->derecho, dato);
@@ -28,15 +28,13 @@ priority_queue<PeliculaConCoincidencias> ABS::buscarenTitulo(const string& termi
     return pq;
 }
 
-void ABS::buscarenTituloAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
+void ABS::buscarenTituloAux(Nodo<Pelicula>* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
     if (!nodo) return;
 
-    // Convertir el cada palabra de la búsqueda a una forma con cada palabra que empieza con mayúscula
     stringstream ss(termino);
     string palabra, terminoTransformado;
     while (ss >> palabra) {
         if (!stopwords.count(palabra)) {
-            // Capitalizar la primera letra de la palabra
             palabra[0] = toupper(palabra[0]);
             for (size_t i = 1; i < palabra.size(); i++) {
                 palabra[i] = tolower(palabra[i]);
@@ -66,14 +64,13 @@ priority_queue<PeliculaConCoincidencias> ABS::buscarenSinopsis(const string& ter
     return pq;
 }
 
-void ABS::buscarenSinopsisAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
+void ABS::buscarenSinopsisAux(Nodo<Pelicula>* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
     if (!nodo) return;
 
     string primeraPalabraValida;
     stringstream ss(termino);
     string palabra;
 
-    // Busca priorizando la primera palabra que no sea una stopword
     while (ss >> palabra && primeraPalabraValida.empty()) {
         if (!stopwords.count(palabra)) {
             primeraPalabraValida = palabra;
@@ -101,10 +98,9 @@ priority_queue<PeliculaConCoincidencias> ABS::buscarenTags(const string& termino
     return pq;
 }
 
-void ABS::buscarenTagsAux(Nodo* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
+void ABS::buscarenTagsAux(Nodo<Pelicula>* nodo, const string& termino, priority_queue<PeliculaConCoincidencias>& pq, unordered_set<string>& stopwords) {
     if (!nodo) return;
 
-    // Convertir el término de búsqueda a minúsculas
     stringstream ss(termino);
     string palabra, terminoTransformado;
     while (ss >> palabra) {
@@ -138,7 +134,8 @@ void ABS::buscar_e_Imprimir(const string& termino, const string &tipoBusqueda) {
 
     if (tipoBusqueda == "Titulo") {
         resultados = buscarenTitulo(termino);
-    } else if (tipoBusqueda == "Sinopsis") {
+    }
+    else if (tipoBusqueda == "Sinopsis") {
         resultados = buscarenSinopsis(termino);
     }
     else if (tipoBusqueda == "Tag") {
@@ -176,7 +173,7 @@ void ABS::recorrerYRecomendar(Cliente &cliente) {
     recorrerYRecomendarAux(raiz, cliente);
 }
 
-void ABS::recorrerYRecomendarAux(Nodo *nodo, Cliente &cliente) {
+void ABS::recorrerYRecomendarAux(Nodo<Pelicula> *nodo, Cliente &cliente) {
     if (nodo == nullptr) return;
 
     recorrerYRecomendarAux(nodo->izquierdo, cliente);
@@ -193,7 +190,7 @@ void ABS::imprimir() {
     imprimirAux(raiz);
 }
 
-void ABS::imprimirAux(Nodo *nodo) {
+void ABS::imprimirAux(Nodo<Pelicula> *nodo) {
     if (nodo == nullptr) return;
 
     imprimirAux(nodo->izquierdo);
@@ -204,7 +201,25 @@ int ABS::contarNodos() {
     return contarNodosAux(raiz);
 }
 
-int ABS::contarNodosAux(Nodo* nodo) {
+int ABS::contarNodosAux(Nodo<Pelicula>* nodo) {
     if (nodo == nullptr) return 0;
     return 1 + contarNodosAux(nodo->izquierdo) + contarNodosAux(nodo->derecho);
+}
+
+Pelicula ABS::buscarPorId(const string &id) {
+    return buscarPorIdAux(raiz, id);
+}
+
+Pelicula ABS::buscarPorIdAux(Nodo<Pelicula> *nodo, const string &id) {
+    if (nodo == nullptr) {
+        return Pelicula(); // Return a default Pelicula object if not found
+    }
+    if (nodo->dato.imdb_id == id) {
+        return nodo->dato;
+    }
+    if (nodo->dato.imdb_id < id) {
+        return buscarPorIdAux(nodo->derecho, id);
+    } else {
+        return buscarPorIdAux(nodo->izquierdo, id);
+    }
 }
