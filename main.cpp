@@ -159,7 +159,7 @@ void darLikePelicula(Cliente* cliente) {
 
 int main() {
     // Ruta del archivo CSV
-    string nombreArchivo = "C:\\Users\\LENOVO\\OneDrive\\Escritorio\\UTEC-ciclo-3\\Programacion-III\\ChavezNet\\data\\RawData_fixed.csv";
+    string nombreArchivo = "C:/Users/Angel/Desktop/ChavezNet/data/RawData_fixed.csv";
 
 
     // Arbolito (singleton)
