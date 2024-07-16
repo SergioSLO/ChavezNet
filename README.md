@@ -6,6 +6,7 @@ Proyecto del curso de Programación III, realizado por Sergio Sebastian Lezama O
 ## Descripción del Proyecto
 
 ChavezNet implementa un sistema de recomendación de películas utilizando un Árbol Binario de Búsqueda (ABS). Los usuarios pueden registrar sus gustos y obtener recomendaciones basadas en las películas que les gustan.
+Para entender mejor como funciona este proyecto, en el siguiente enlace se encuentra un video de explicación: [link del video](https://drive.google.com/drive/folders/1f76zPKyri5rW8kaNTuNWbinLzZG710iv?usp=sharing)
 
 ## Características
 
