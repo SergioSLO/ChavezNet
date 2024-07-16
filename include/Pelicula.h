@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <queue>
 #include <cmath>
+#include "PeliculaComponent.h"
 
 class ABS;
 class Cliente;
@@ -39,5 +40,20 @@ unordered_map<string, Pelicula> leerCSVconId(const string& nombreArchivo);
 void imprimirPelicula(const Pelicula& pelicula);
 vector<string> Stopwords(const string& texto, const unordered_set<string>& stopwords);
 void leerCSVenArbol(const string& nombreArchivo);
+
+
+struct Pelicula: public PeliculaComponent {
+public:
+    // Métodos y atributos existentes
+    void imprimir(Cliente* cliente) const override;
+};
+
+// Pelicula.cpp
+#include "Pelicula.h"
+
+// Método imprimir ya existente
+void Pelicula::imprimir(Cliente* cliente) const {
+    // Implementación existente
+}
 
 #endif //CHAVEZNET_PELICULA_H
