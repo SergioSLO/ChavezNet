@@ -2,6 +2,7 @@
 
 #include "../include/Cliente.h"
 #include "../include/Arbol.h"
+#include "../include/Pelicula.h"
 #include <conio.h>
 // sobrecarga para poder comparar pair<double, Pelicula> en la priority_queue
 bool operator>(const pair<double, Pelicula>& a, const pair<double, Pelicula>& b) {
