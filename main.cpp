@@ -2,6 +2,8 @@
 #include "Cliente.h"
 #include "Arbol.h"
 #include "ClienteConcreteFactory.h"
+#include "PeliculaVistaDecorator.h"
+#include "PeliculaCalificadaDecorator.h"
 
 using namespace std;
 
@@ -174,6 +176,19 @@ int main() {
     ConcreteClienteFactory clienteFactory;
 
     Cliente* cliente = clienteFactory.crearCliente("usuario");
+    // Buscar una película y aplicar decoradores
+    Pelicula pelicula = arbol.buscarPorId("tt1234567");
+    PeliculaComponent* peliculaConVistas = new PeliculaVistaDecorator(&pelicula, 5);
+    PeliculaComponent* peliculaConCalificacion = new PeliculaCalificadaDecorator(peliculaConVistas, 4.5);
+
+    // Imprimir información de la película decorada
+    peliculaConCalificacion->imprimir(cliente);
+
+    // Limpiar memoria
+    delete peliculaConCalificacion;
+
+
+
     int opcion;
 
     while (true) {//while principal

@@ -8,6 +8,8 @@
 #include "Pelicula.h"
 #include "Cliente.h"
 
+class Cliente;
+
 class PeliculaComponent {
 public:
     virtual void imprimir(Cliente* cliente) const = 0;

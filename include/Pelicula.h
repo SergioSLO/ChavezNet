@@ -22,7 +22,7 @@ class Cliente;
 
 using namespace std;
 
-struct Pelicula {
+struct Pelicula :public PeliculaComponent{
     string imdb_id;
     string titulo;
     string sinopsis;
@@ -32,6 +32,7 @@ struct Pelicula {
     bool operator<(const Pelicula& otra) const {
         return imdb_id < otra.imdb_id;
     }
+
 };
 
 
@@ -42,18 +43,5 @@ vector<string> Stopwords(const string& texto, const unordered_set<string>& stopw
 void leerCSVenArbol(const string& nombreArchivo);
 
 
-struct Pelicula: public PeliculaComponent {
-public:
-    // Métodos y atributos existentes
-    void imprimir(Cliente* cliente) const override;
-};
-
-// Pelicula.cpp
-#include "Pelicula.h"
-
-// Método imprimir ya existente
-void Pelicula::imprimir(Cliente* cliente) const {
-    // Implementación existente
-}
 
 #endif //CHAVEZNET_PELICULA_H
