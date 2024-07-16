@@ -3,6 +3,8 @@
 #pragma once // para que solo se llame una vez
 
 #include "Nodo.h"
+#include "Pelicula.h"
+#include "Cliente.h"
 #include "PeliculaConCoincidencias.h"
 #include "Cliente.h"
 #include <unordered_set>

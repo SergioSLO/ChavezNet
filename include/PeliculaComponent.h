@@ -8,6 +8,7 @@
 #include "Pelicula.h"
 #include "Cliente.h"
 
+
 class Cliente;
 
 class PeliculaComponent {

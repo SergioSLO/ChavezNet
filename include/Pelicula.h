@@ -18,7 +18,7 @@
 #include "PeliculaComponent.h"
 
 class ABS;
-class Cliente;
+
 
 using namespace std;
 
