@@ -3,7 +3,11 @@
 #include "Arbol.h"
 #include "ClienteConcreteFactory.h"
 
+#include <fstream>
+#include <filesystem>
+
 using namespace std;
+namespace fs = std::filesystem;
 
 void limpiarTerminal() {
     system("cls");
@@ -158,8 +162,17 @@ void darLikePelicula(Cliente* cliente) {
 }
 
 int main() {
-    // Ruta del archivo CSV
-    string nombreArchivo = "C:/Users/Angel/Desktop/ChavezNet/data/RawData_fixed.csv";
+    // Obtener el directorio actual del ejecutable
+    fs::path currentPath = fs::current_path();
+
+    // Asumir que el ejecutable está en 'cmake-build-debug' y subir un nivel para llegar a la raíz del proyecto
+    fs::path projectRootPath = currentPath.parent_path();
+
+    // Ruta del archivo CSV relativa al directorio raíz del proyecto
+    fs::path csvFilePath = projectRootPath / "data" / "RawData_fixed.csv";
+
+    // Convertir la ruta a string
+    string nombreArchivo = csvFilePath.string();
 
 
     // Arbolito (singleton)
