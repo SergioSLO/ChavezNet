@@ -1,7 +1,9 @@
-#include "Pelicula.h"
-#include "Cliente.h"
-#include "Arbol.h"
-#include "ClienteConcreteFactory.h"
+#include "include/Pelicula.h"
+
+#include "include/Cliente.h"
+#include "include/Arbol.h"
+#include "include/ClienteConcreteFactory.h"
+
 
 #include <fstream>
 #include <filesystem>
@@ -162,21 +164,20 @@ void darLikePelicula(Cliente* cliente) {
 }
 
 int main() {
-    // Obtener el directorio actual del ejecutable
-    fs::path currentPath = fs::current_path();
-
-    // Asumir que el ejecutable está en 'cmake-build-debug' y subir un nivel para llegar a la raíz del proyecto
-    fs::path projectRootPath = currentPath.parent_path();
-
-    // Ruta del archivo CSV relativa al directorio raíz del proyecto
-    fs::path csvFilePath = projectRootPath / "data" / "RawData_fixed.csv";
-
-    // Convertir la ruta a string
-    string nombreArchivo = csvFilePath.string();
-
+    // Ruta absoluta del archivo CSV
+    string nombreArchivo = "C:/Users/Milton/.vscode/ChavezNet/data/RawData_fixed.csv";
 
     // Arbolito (singleton)
     ABS& arbol = ABS::getInstance();
+    
+    // Verificar si el archivo se abre correctamente
+    ifstream archivo(nombreArchivo);
+    if (!archivo) {
+        cerr << "Error: No se pudo abrir el archivo: " << nombreArchivo << endl;
+        return 1;
+    }
+    archivo.close();
+    
     leerCSVenArbol(nombreArchivo);
 
     // Cliente (Factory)
@@ -185,11 +186,10 @@ int main() {
     getline(cin, nombreCliente);
 
     ConcreteClienteFactory clienteFactory;
-
     Cliente* cliente = clienteFactory.crearCliente("usuario");
     int opcion;
 
-    while (true) {//while principal
+    while (true) { // while principal
         opcion = mostrarMenu();
 
         switch (opcion) {
